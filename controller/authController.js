@@ -8,19 +8,19 @@ class AuthController {
         try{
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
-                return res.status(400).json({message: 'Validation error', errors})
+                return res.status(400).json({message: 'Помилка при валідаціі', errors})
             }
             const { email, password } = req.body
             const candidate = await User.findOne({email})
             if(candidate) {
-                return res.status(400).json({message: `User with email ${email} already exists`})
+                return res.status(400).json({message: `Користувач з поштою ${email} вже існує`})
             }
             const hashPassword = await bcrypt.hash(password, 3)
             const user = new User({email, password: hashPassword})
 
             await user.save()
 
-            return res.json({message: `User successfully registered`})
+            return res.json({message: `Користувача успішно зареєстровано`})
 
 
         } catch(e) {
@@ -33,12 +33,12 @@ class AuthController {
             const { email, password } = req.body
             const candidate = await User.findOne({email})
             if(!candidate) {
-                return res.status(400).json({message: `No user with email ${email}`})
+                return res.status(400).json({message: `Користувача з поштою ${email} не знайдено`})
             }
 
             const isPassCorrect = await bcrypt.compare(password, candidate.password)
             if(!isPassCorrect) {
-                return res.status(400).json({message: 'Wrong password'})
+                return res.status(400).json({message: 'Хибний пароль'})
             }
             
             const token = jwt.sign({payload:{id: candidate._id, email}}, process.env.JWT_SECRET, {expiresIn: "24h"})

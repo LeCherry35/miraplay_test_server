@@ -13,10 +13,9 @@ class GamesController {
             const { data } = response
             const {games, gamesListLength} = data
             const gamesDto = games.map(game => {
-                const {gameDescription, commonGameName, gameImages} = game
-                return {gameDescription, commonGameName, gameImages}
+                const {gameDescription, commonGameName, gameImage} = game
+                return {gameDescription, commonGameName, gameImage}
             })
-            console.log('5', gamesDto);
             return res.json({games:gamesDto, gamesListLength})
         } catch(e) {
             next(e)
