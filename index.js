@@ -3,7 +3,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const authRouter = require('./router/authRouter')
+const gamesRouter = require('./router/gamesRouter')
 const cors = require('cors')
+const authMiddleware = require('./middleware/authMiddleware')
 
 
 const PORT = process.env.PORT || 5000
@@ -14,6 +16,8 @@ const jsonParser = bodyParser.json()
 app.use(cors())
 app.use(jsonParser)
 app.use('/auth', authRouter)
+app.use('/games', authMiddleware, gamesRouter)
+
 
 
 const  start = async () => {

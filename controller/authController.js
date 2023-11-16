@@ -52,7 +52,6 @@ class AuthController {
         try{
             const { token } = req.body
             const data = jwt.verify(token, process.env.JWT_SECRET)
-            console.log('456', data);
             return res.json(data)
         } catch(e) {
             next(e)
