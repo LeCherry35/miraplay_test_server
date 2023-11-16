@@ -22,9 +22,18 @@ app.use('/games', authMiddleware, gamesRouter)
 
 const  start = async () => {
     try {
-        console.log('gtr', process.env.DB_URL);
-        await mongoose.connect(process.env.DB_URL)
-        app.listen(PORT, () => console.log(`server has started on port ${PORT}`))
+        const connectDB = async () => {
+            try {
+              const conn = await mongoose.connect(process.env.DB_URL);
+              console.log(`MongoDB Connected: ${conn.connection.host}`);
+            } catch (error) {
+              console.log(error);
+              process.exit(1);
+            }
+        }
+        connectDB().then(() => {
+    app.listen(PORT, () => console.log(`server has started on port ${PORT}`))
+        })
 
     } catch(e) {
         console.log(e);
