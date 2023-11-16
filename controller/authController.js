@@ -42,7 +42,8 @@ class AuthController {
             }
             
             const token = jwt.sign({payload:{id: candidate._id, email}}, process.env.JWT_SECRET, {expiresIn: "24h"})
-            return res.json({token})
+            const loginData = {token, user: {email, id: candidate._id}}
+            return res.json(loginData)
         } catch(e) {
             next(e)
         }
@@ -51,8 +52,8 @@ class AuthController {
     async checkToken (req, res, next) {
         try{
             const { token } = req.body
-            const data = jwt.verify(token, process.env.JWT_SECRET)
-            return res.json(data)
+            const { payload } = jwt.verify(token, process.env.JWT_SECRET)
+            return res.json(payload)
         } catch(e) {
             next(e)
         }
