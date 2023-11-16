@@ -25,7 +25,7 @@ const  start = async () => {
         const connectDB = async () => {
             try {
                 console.log(PORT);
-              const conn = await mongoose.connect('mongodb+srv://che:KTL1RtUmMDVtvapC@cluster0.baj4emo.mongodb.net/?retryWrites=true&w=majority');
+              const conn = await mongoose.connect(process.env.DB_URL);
               console.log(`MongoDB Connected: ${conn.connection.host}`);
             } catch (error) {
               console.log(error);
