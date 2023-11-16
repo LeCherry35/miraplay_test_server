@@ -13,6 +13,6 @@ router.post(
     authController.registration
 )
 router.post('/login', authController.login)
-router.post('/logout', authController.logout)
+router.post('/checkToken', authController.checkToken)
 
 module.exports = router

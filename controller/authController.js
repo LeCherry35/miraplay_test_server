@@ -17,6 +17,7 @@ class AuthController {
             }
             const hashPassword = await bcrypt.hash(password, 3)
             const user = new User({email, password: hashPassword})
+
             await user.save()
 
             return res.json({message: `User successfully registered`})
@@ -39,23 +40,23 @@ class AuthController {
             if(!isPassCorrect) {
                 return res.status(400).json({message: 'Wrong password'})
             }
-            console.log('1234');
-            const token = jwt.sign({payload:{id: candidate._id}}, process.env.JWT_SECRET, {expiresIn: "24h"})
+            
+            const token = jwt.sign({payload:{id: candidate._id, email}}, process.env.JWT_SECRET, {expiresIn: "24h"})
             return res.json({token})
         } catch(e) {
             next(e)
         }
     }
 
-    async logout (req, res, next) {
+    async checkToken (req, res, next) {
         try{
-
+            const { token } = req.body
+            const data = jwt.verify(token, process.env.JWT_SECRET)
+            console.log('456', data);
+            return res.json(data)
         } catch(e) {
             next(e)
         }
-    }
-
-    async getUsers (req, res, next) {
     }
 
 }
