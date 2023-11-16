@@ -8,7 +8,7 @@ const cors = require('cors')
 const authMiddleware = require('./middleware/authMiddleware')
 
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 
 const app = express()
 const jsonParser = bodyParser.json()
@@ -24,8 +24,7 @@ const  start = async () => {
     try {
         const connectDB = async () => {
             try {
-                console.log('rty');
-              const conn = await mongoose.connect('mongodb+srv://che:KTL1RtUmMDVtvapC@cluster0.baj4emo.mongodb.net/?retryWrites=true&w=majority');
+              const conn = await mongoose.connect(process.env.DB_URL);
               console.log(`MongoDB Connected: ${conn.connection.host}`);
             } catch (error) {
               console.log(error);
