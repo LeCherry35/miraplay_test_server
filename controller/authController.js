@@ -55,7 +55,8 @@ class AuthController {
             const { payload } = jwt.verify(token, process.env.JWT_SECRET)
             return res.json(payload)
         } catch(e) {
-            next(e)
+            return res.status(403).json({message: 'Помилка авторизації'})
+            // next(e)
         }
     }
 
